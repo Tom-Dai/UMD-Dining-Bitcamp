@@ -1,0 +1,53 @@
+{% extends "header.html" %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        {# Profile picture #}
+        <img class="img-thumbnail" src="data:image/png;base64,{{image}}" alt="image">
+    </div>
+    <div class="col">
+        {# Greeting #}
+        <h2>Welcome back {{current_user.username}}!</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {# Username Update Form #}
+        <form method="POST" action="">
+            {{ user_form.csrf_token }}
+            <div class="form-group">
+              {{ user_form.username.label }}
+              {{ user_form.username(class="form-control") }}          
+              {% if user_form.username.errors %}
+                <div class="alert alert-warning" role="alert">
+                {% for error in user_form.username.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+                </div>
+            {% endif %}
+            </div>
+            {{ user_form.submit(class="btn btn-outline-info") }}
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {# Profile Picture Update Form #}
+        <form action="" method="post" enctype="multipart/form-data">
+            {{ picture_form.csrf_token }}
+            <div class="form-group">
+              {{ picture_form.picture.label }}
+              {{ picture_form.picture(class="form-control-file") }}          
+              
+            </div>
+            {{ picture_form.submit(class="btn btn-outline-info") }}
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {# Link to see all of the current user's reviews. #}
+        <a href="{{ url_for('user_detail', username= current_user.username) }}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">See your Reviews</a>
+    </div>
+</div>
+{% endblock %}
